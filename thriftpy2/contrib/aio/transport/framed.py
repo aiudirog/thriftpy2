@@ -28,7 +28,7 @@ class TAsyncFramedTransport(TAsyncTransportBase):
         return self._trans.close()
 
     @asyncio.coroutine
-    def read(self, sz):
+    def read1(self, sz):
         # Important: don't attempt to read the next frame if the caller
         # doesn't actually need any data.
         if sz == 0:
@@ -43,9 +43,9 @@ class TAsyncFramedTransport(TAsyncTransportBase):
 
     @asyncio.coroutine
     def read_frame(self):
-        buff = yield from readall(self._trans.read, 4)
+        buff = yield from readall(self._trans.read1, 4)
         sz, = struct.unpack('!i', buff)
-        frame = yield from readall(self._trans.read, sz)
+        frame = yield from readall(self._trans.read1, sz)
         self._rbuf = BytesIO(frame)
 
     def write(self, buf):

@@ -28,10 +28,7 @@ class TMemoryBuffer(TTransportBase):
     def close(self):
         self._buffer.close()
 
-    def read(self, sz):
-        return self._read(sz)
-
-    def _read(self, sz):
+    def read1(self, sz):
         orig_pos = self._buffer.tell()
         self._buffer.seek(self._pos)
         res = self._buffer.read(sz)

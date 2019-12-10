@@ -38,7 +38,7 @@ class TTransportBase(object):
         """Clean up and deallocate any resources allocated in open()."""
         raise NotImplementedError
 
-    def _read(self, sz):
+    def read1(self, sz):
         """
         Internal read method which can read up to `sz` bytes but doesn't
         need to return them all.
@@ -47,7 +47,7 @@ class TTransportBase(object):
 
     def read(self, sz):
         """Get exactly `sz` bytes from the underlying connection."""
-        return readall(self._read, sz)
+        return readall(self.read1, sz)
 
     def write(self, buf):
         """

@@ -39,12 +39,12 @@ class TAsyncTransportBase(TTransportBase):
         raise NotImplementedError
 
     @asyncio.coroutine
-    def _read(self, sz):
+    def read1(self, sz):
         raise NotImplementedError
 
     @asyncio.coroutine
     def read(self, sz):
-        return (yield from readall(self._read, sz))
+        return (yield from readall(self.read1, sz))
 
     def write(self, buf):
         raise NotImplementedError

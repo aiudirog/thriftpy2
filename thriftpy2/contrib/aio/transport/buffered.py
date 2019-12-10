@@ -30,14 +30,14 @@ class TAsyncBufferedTransport(TAsyncTransportBase):
         return self._trans.close()
 
     @asyncio.coroutine
-    def _read(self, sz):
+    def read1(self, sz):
         ret = self._rbuf.read(sz)
 
         rest_len = sz - len(ret)
         if rest_len == 0:
             return ret
 
-        buf = yield from self._trans.read(max(rest_len, self._buf_size))
+        buf = yield from self._trans.read1(max(rest_len, self._buf_size))
 
         ret = ret + buf[:rest_len]
         buf = buf[rest_len:]

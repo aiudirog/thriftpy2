@@ -83,13 +83,16 @@ class TFileObjectTransport(TTransportBase):
     def __init__(self, fileobj):
         self.fileobj = fileobj
 
-    def isOpen(self):
+    def is_open(self):
         return True
+
+    def open(self):
+        pass  # Already open
 
     def close(self):
         self.fileobj.close()
 
-    def read(self, sz):
+    def read1(self, sz):
         return self.fileobj.read(sz)
 
     def write(self, buf):
@@ -202,7 +205,7 @@ class THttpClient(object):
         self.__http.close()
         self.__http = None
 
-    def isOpen(self):
+    def is_open(self):
         return self.__http is not None
 
     def setTimeout(self, ms):
@@ -214,15 +217,18 @@ class THttpClient(object):
     def setCustomHeaders(self, headers):
         self.__custom_headers = headers
 
-    def read(self, sz):
+    def read1(self, sz):
         content = self.response.read(sz)
         return content
+
+    def read(self, sz):
+        return self.read1(sz)
 
     def write(self, buf):
         self.__wbuf.write(buf)
 
     def flush(self):
-        if self.isOpen():
+        if self.is_open():
             self.close()
         self.open()
 

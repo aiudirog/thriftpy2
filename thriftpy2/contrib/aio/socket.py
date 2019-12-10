@@ -189,6 +189,8 @@ class TAsyncSocket(object):
                                       message='TSocket read 0 bytes')
         return buff
 
+    read1 = read  # Compatibility with transports
+
     def write(self, buff):
         self.writer.write(buff)
 
@@ -342,6 +344,8 @@ class StreamHandler(object):
             raise TTransportException(type=TTransportException.END_OF_FILE,
                                       message='TSocket read 0 bytes')
         return buff
+
+    read1 = read  # Compatibility with transports
 
     def write(self, buff):
         self.writer.write(buff)

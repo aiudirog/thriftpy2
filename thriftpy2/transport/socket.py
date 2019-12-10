@@ -132,6 +132,8 @@ class TSocket(object):
                                       message='TSocket read 0 bytes')
         return buff
 
+    read1 = read  # Compatibility with transports
+
     def write(self, buff):
         self.sock.sendall(buff)
 

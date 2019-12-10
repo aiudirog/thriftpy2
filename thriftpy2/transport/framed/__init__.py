@@ -26,7 +26,7 @@ class TFramedTransport(TTransportBase):
     def close(self):
         return self._trans.close()
 
-    def read(self, sz):
+    def read1(self, sz):
         # Important: don't attempt to read the next frame if the caller
         # doesn't actually need any data.
         if sz == 0:
@@ -40,9 +40,9 @@ class TFramedTransport(TTransportBase):
         return self._rbuf.read(sz)
 
     def read_frame(self):
-        buff = readall(self._trans.read, 4)
+        buff = readall(self._trans.read1, 4)
         sz, = struct.unpack('!i', buff)
-        frame = readall(self._trans.read, sz)
+        frame = readall(self._trans.read1, sz)
         self._rbuf = BytesIO(frame)
 
     def write(self, buf):
